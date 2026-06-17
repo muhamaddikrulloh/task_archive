@@ -9,6 +9,9 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+$success = $_SESSION['success'] ?? '';
+unset($_SESSION['success']);
+
 $uid = $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT t.*, (SELECT COUNT(*) FROM lampiran WHERE tugas_id = t.id) AS jml_lampiran FROM tugas t WHERE t.user_id = ? ORDER BY t.tanggal_pengumpulan DESC");
 $stmt->bind_param('i', $uid);
@@ -62,6 +65,14 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         class="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition">
         Export PDF
       </button>
+
+      <?php if ($success): ?>
+      <div class="ml-auto bg-green-50 border border-green-200 text-green-600 text-sm px-3 py-2 rounded-lg">
+        <?= htmlspecialchars($success) ?>
+      </div>
+      <?php endif; ?>
+
+
     </div>
 
     <!-- Tabel -->

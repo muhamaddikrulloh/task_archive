@@ -218,6 +218,5 @@ if (
 }
 
 $_SESSION['success'] = 'Data tugas berhasil diperbarui.';
-
 header('Location: index.php');
 exit;

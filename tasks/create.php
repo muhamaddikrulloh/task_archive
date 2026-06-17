@@ -8,10 +8,6 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: ../login.php');
     exit;
 }
-
-$error   = $_SESSION['error'] ?? '';
-$success = $_SESSION['success'] ?? '';
-unset($_SESSION['error'], $_SESSION['success']);
 ?>
 
 <!DOCTYPE html>
@@ -30,13 +26,6 @@ unset($_SESSION['error'], $_SESSION['success']);
   <main class="max-w-2xl mx-auto px-4 py-8">
 
     <h2 class="text-xl font-semibold text-gray-800 mb-6">Tambah Tugas</h2>
-
-    <!-- Notifikasi -->
-    <?php if ($error): ?>
-      <div class="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg px-4 py-3 mb-5">
-        <?= htmlspecialchars($error) ?>
-      </div>
-    <?php endif; ?>
 
     <!-- PHP: action mengarah ke store.php -->
     <form action="store.php" method="POST" enctype="multipart/form-data">
@@ -151,10 +140,6 @@ unset($_SESSION['error'], $_SESSION['success']);
 
     </form>
   </main>
-
-  <footer class="text-center text-xs text-gray-400 py-6">
-    © 2026 Task Archive. All rights reserved.
-  </footer>
 
   <script>
     // Canvas TTD

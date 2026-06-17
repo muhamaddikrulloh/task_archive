@@ -34,19 +34,32 @@ $stmt2->execute();
 $lampirans = $stmt2->get_result()->fetch_all(MYSQLI_ASSOC);
 
 // Hapus file lampiran dari disk
-foreach ($lampirans as $l) {
-    @unlink('../' . $l['path_file']);
+foreach ($lampirans as $lampiran) {
+
+    $path = '../' . $lampiran['path_file'];
+
+    if (file_exists($path)) {
+        unlink($path);
+    }
 }
 
 // Hapus file TTD dari disk
 if (!empty($tugas['ttd_digital'])) {
-    @unlink('../assets/uploads/signatures/' . $tugas['ttd_digital']);
+
+    $ttdPath = '../assets/uploads/signatures/' . $tugas['ttd_digital'];
+
+    if (file_exists($ttdPath)) {
+        unlink($ttdPath);
+    }
 }
 
-// Hapus dari DB — lampiran terhapus otomatis karena ON DELETE CASCADE
-$del = $conn->prepare("DELETE FROM tugas WHERE id = ? AND user_id = ?");
-$del->bind_param('ii', $id, $uid);
-$del->execute();
+$delete = $conn->prepare("
+    DELETE FROM tugas
+    WHERE id = ? AND user_id = ?
+");
+
+$delete->bind_param('ii', $id, $uid);
+$delete->execute();
 
 $_SESSION['success'] = 'Tugas berhasil dihapus.';
 header('Location: index.php');
