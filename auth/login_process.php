@@ -1,12 +1,5 @@
 <?php
-
 session_start();
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../login.php');
-    exit;
-}
-
 require_once '../includes/db.php';
 
 $email    = trim($_POST['email'] ?? '');

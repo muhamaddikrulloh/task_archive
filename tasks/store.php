@@ -2,6 +2,8 @@
 session_start();
 require_once '../includes/db.php';
 
+$page = basename($_SERVER['PHP_SELF']);
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login.php');
     exit;
@@ -28,16 +30,15 @@ if (!$judul_tugas || !$mata_kuliah || !$dosen || !$semester || !$tanggal_pengump
     exit;
 }
 
-// ── Simpan TTD ───────────────────────────────────────────────────
+// Simpan TTD
 $ttd_filename = null;
 if (!empty($ttd_data) && str_starts_with($ttd_data, 'data:image/png;base64,')) {
     $ttd_binary   = base64_decode(explode(',', $ttd_data)[1]);
     $ttd_filename = uniqid('ttd_') . '.png';
-    // ⚠️ PHP: Sesuaikan path ke folder signatures dari root project
     file_put_contents('../assets/uploads/signatures/' . $ttd_filename, $ttd_binary);
 }
 
-// ── Insert tugas ─────────────────────────────────────────────────
+// Insert tugas
 $stmt = $conn->prepare("INSERT INTO tugas (user_id, judul_tugas, mata_kuliah, dosen, semester, tanggal_pengumpulan, deskripsi, ttd_digital) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 $stmt->bind_param('isssisss', $uid, $judul_tugas, $mata_kuliah, $dosen, $semester, $tanggal_pengumpulan, $deskripsi, $ttd_filename);
 
@@ -49,7 +50,7 @@ if (!$stmt->execute()) {
 
 $tugas_id = $conn->insert_id;
 
-// ── Upload lampiran ──────────────────────────────────────────────
+// Upload lampiran
 // Mapping: nama input => [folder tujuan, tipe_file, ekstensi yang diizinkan]
 $upload_groups = [
     'lampiran_pdf' => ['pdf',         'pdf',   ['pdf']],
@@ -87,5 +88,5 @@ foreach ($upload_groups as $input_name => [$folder, $tipe, $allowed_ext]) {
 }
 
 $_SESSION['success'] = 'Tugas berhasil disimpan.';
-header('Location: main.php');
+header('Location: index.php');
 exit;

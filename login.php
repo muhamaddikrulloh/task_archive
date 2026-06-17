@@ -1,6 +1,6 @@
 <?php
-
 session_start();
+require_once 'includes/db.php';
 
 if (isset($_SESSION['user_id'])) {
     header('Location: dashboard.php');
@@ -11,7 +11,6 @@ $error = $_SESSION['error'] ?? '';
 $old_email = $_SESSION['old_email'] ?? '';
 
 unset($_SESSION['error'], $_SESSION['old_email']);
-
 ?>
 
 <!DOCTYPE html>
@@ -74,20 +73,15 @@ unset($_SESSION['error'], $_SESSION['old_email']);
                     name="password"
                     autocomplete="current-password"
                     required
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <button
                 type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition"
-            >
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition">
                 Masuk
             </button>
-
         </form>
-
     </div>
-
 </body>
 </html>

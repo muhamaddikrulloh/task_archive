@@ -2,6 +2,8 @@
 session_start();
 require_once '../includes/db.php';
 
+$page = basename($_SERVER['PHP_SELF']);
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login.php');
     exit;
@@ -13,6 +15,7 @@ $stmt->bind_param('i', $uid);
 $stmt->execute();
 $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -43,14 +46,7 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 <body class="bg-gray-100 min-h-screen">
 
   <!-- Navbar -->
-  <nav class="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
-    <span class="text-blue-600 font-bold text-lg">Task Archive</span>
-    <div class="flex items-center gap-6">
-      <a href="../dashboard.php" class="text-sm text-gray-600 hover:text-blue-600">Dashboard</a>
-      <a href="main.php" class="text-sm font-medium text-blue-600">Data Tugas</a>
-      <a href="../auth/logout.php" class="text-sm text-red-500 hover:text-red-600">Logout</a>
-    </div>
-  </nav>
+  <?php include '../includes/navbar.php'; ?>
 
   <main class="max-w-6xl mx-auto px-4 py-8">
 
@@ -82,37 +78,34 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
           </tr>
         </thead>
         <tbody>
-          <?php if (empty($tugas)): ?>
-            <tr>
-              <td colspan="6" class="text-center text-gray-400 py-6">Belum ada data tugas.</td>
+          <?php foreach ($tugas as $i => $t): ?>
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+              <td class="px-4 py-3 text-gray-500"><?= $i + 1 ?></td>
+              <td class="px-4 py-3 font-medium text-gray-800"><?= htmlspecialchars($t['judul_tugas']) ?></td>
+              <td class="px-4 py-3 text-gray-600"><?= htmlspecialchars($t['mata_kuliah']) ?></td>
+              <td class="px-4 py-3 text-gray-600"><?= htmlspecialchars($t['semester']) ?></td>
+              <td class="px-4 py-3 text-gray-600"><?= date('d M Y', strtotime($t['tanggal_pengumpulan'])) ?></td>
+              <td class="px-4 py-3 text-center">
+                <div class="flex justify-center gap-2">
+
+                  <button onclick="openDetail(<?= htmlspecialchars(json_encode($t), ENT_QUOTES) ?>)"
+                    class="bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-medium px-3 py-1.5 rounded-lg transition">
+                    Detail
+                  </button>
+
+                  <a href="edit.php?id=<?= $t['id'] ?>"
+                    class="bg-yellow-50 hover:bg-yellow-100 text-yellow-600 text-xs font-medium px-3 py-1.5 rounded-lg transition">
+                    Edit
+                  </a>
+
+                  <button onclick="confirmHapus(<?= $t['id'] ?>)"
+                    class="bg-red-50 hover:bg-red-100 text-red-600 text-xs font-medium px-3 py-1.5 rounded-lg transition">
+                    Hapus
+                  </button>
+
+              </td>
             </tr>
-          <?php else: ?>
-            <?php foreach ($tugas as $i => $t): ?>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 text-gray-500"><?= $i + 1 ?></td>
-                <td class="px-4 py-3 font-medium text-gray-800"><?= htmlspecialchars($t['judul_tugas']) ?></td>
-                <td class="px-4 py-3 text-gray-600"><?= htmlspecialchars($t['mata_kuliah']) ?></td>
-                <td class="px-4 py-3 text-gray-600"><?= htmlspecialchars($t['semester']) ?></td>
-                <td class="px-4 py-3 text-gray-600"><?= date('d M Y', strtotime($t['tanggal_pengumpulan'])) ?></td>
-                <td class="px-4 py-3 text-center">
-                  <div class="flex justify-center gap-2">
-                    <button onclick="openDetail(<?= htmlspecialchars(json_encode($t), ENT_QUOTES) ?>)"
-                      class="bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-medium px-3 py-1.5 rounded-lg transition">
-                      Detail
-                    </button>
-                    <a href="edit.php?id=<?= $t['id'] ?>"
-                      class="bg-yellow-50 hover:bg-yellow-100 text-yellow-600 text-xs font-medium px-3 py-1.5 rounded-lg transition">
-                      Edit
-                    </a>
-                    <button onclick="confirmHapus(<?= $t['id'] ?>)"
-                      class="bg-red-50 hover:bg-red-100 text-red-600 text-xs font-medium px-3 py-1.5 rounded-lg transition">
-                      Hapus
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            <?php endforeach; ?>
-          <?php endif; ?>
+          <?php endforeach; ?>
         </tbody>
       </table>
     </div>
@@ -121,21 +114,20 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
   <!-- Modal Detail -->
   <div id="modalDetail" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 hidden px-4">
-    <div class="bg-white rounded-2xl shadow-lg w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-base font-semibold text-gray-800">Detail Tugas</h3>
-        <button onclick="closeDetail()" class="text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
+    <div class="bg-white rounded-2xl shadow-lg w-full max-w-md p-6 max-h-[95vh] overflow-y-auto">
+      <div class="mb-4 text-center">
+        <h3 class="text-1xl font-bold text-blue-600">Detail Tugas</h3>
       </div>
       <div class="space-y-3 text-sm">
-        <div><p class="text-gray-500">Judul Tugas</p><p id="d-judul" class="font-medium text-gray-800 mt-0.5"></p></div>
-        <div><p class="text-gray-500">Mata Kuliah</p><p id="d-matkul" class="text-gray-700 mt-0.5"></p></div>
-        <div><p class="text-gray-500">Dosen</p><p id="d-dosen" class="text-gray-700 mt-0.5"></p></div>
-        <div><p class="text-gray-500">Semester</p><p id="d-semester" class="text-gray-700 mt-0.5"></p></div>
-        <div><p class="text-gray-500">Tanggal Pengumpulan</p><p id="d-tanggal" class="text-gray-700 mt-0.5"></p></div>
-        <div><p class="text-gray-500">Deskripsi</p><p id="d-deskripsi" class="text-gray-700 mt-0.5 whitespace-pre-wrap"></p></div>
-        <div><p class="text-gray-500">Jumlah Lampiran</p><p id="d-lampiran" class="text-gray-700 mt-0.5"></p></div>
+        <div><p class="font-semibold text-gray-500">Judul Tugas</p><p id="d-judul" class="text-gray-700 mt-0.5"></p></div>
+        <div><p class="font-semibold text-gray-500">Mata Kuliah</p><p id="d-matkul" class="text-gray-700 mt-0.5"></p></div>
+        <div><p class="font-semibold text-gray-500">Dosen</p><p id="d-dosen" class="text-gray-700 mt-0.5"></p></div>
+        <div><p class="font-semibold text-gray-500">Semester</p><p id="d-semester" class="text-gray-700 mt-0.5"></p></div>
+        <div><p class="font-semibold text-gray-500">Tanggal Pengumpulan</p><p id="d-tanggal" class="text-gray-700 mt-0.5"></p></div>
+        <div><p class="font-semibold text-gray-500">Deskripsi</p><p id="d-deskripsi" class="text-gray-700 mt-0.5 whitespace-pre-wrap"></p></div>
+        <div><p class="font-semibold text-gray-500">Jumlah Lampiran</p><p id="d-lampiran" class="text-gray-700 mt-0.5"></p></div>
         <div id="ttd-wrapper" class="hidden">
-          <p class="text-gray-500 mb-1">Tanda Tangan Digital</p>
+          <p class="font-semibold text-gray-500">Tanda Tangan Digital</p>
           <img id="d-ttd" src="" alt="TTD" class="border border-gray-200 rounded-lg max-h-32">
         </div>
       </div>
@@ -151,13 +143,10 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     <input type="hidden" name="id" id="hapus-id">
   </form>
 
-  <footer class="text-center text-xs text-gray-400 py-6">
-    © 2026 Task Archive. All rights reserved.
-  </footer>
-
   <script>
     $(document).ready(function () {
       $('#tabelTugas').DataTable({
+        columnDefs: [{ targets: '_all', defaultContent: '-' }],
         language: {
           search: 'Cari:',
           lengthMenu: 'Tampilkan _MENU_ data',
@@ -169,12 +158,12 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     });
 
     function openDetail(data) {
-      document.getElementById('d-judul').textContent    = data.judul_tugas           || '-';
-      document.getElementById('d-matkul').textContent   = data.mata_kuliah            || '-';
-      document.getElementById('d-dosen').textContent    = data.dosen                  || '-';
+      document.getElementById('d-judul').textContent = data.judul_tugas || '-';
+      document.getElementById('d-matkul').textContent = data.mata_kuliah || '-';
+      document.getElementById('d-dosen').textContent = data.dosen || '-';
       document.getElementById('d-semester').textContent = 'Semester ' + (data.semester || '-');
-      document.getElementById('d-tanggal').textContent  = data.tanggal_pengumpulan    || '-';
-      document.getElementById('d-deskripsi').textContent = data.deskripsi             || '-';
+      document.getElementById('d-tanggal').textContent  = data.tanggal_pengumpulan || '-';
+      document.getElementById('d-deskripsi').textContent = data.deskripsi || '-';
       document.getElementById('d-lampiran').textContent = data.jml_lampiran + ' file';
 
       const ttdWrapper = document.getElementById('ttd-wrapper');
@@ -184,7 +173,6 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
       } else {
         ttdWrapper.classList.add('hidden');
       }
-
       document.getElementById('modalDetail').classList.remove('hidden');
     }
 
