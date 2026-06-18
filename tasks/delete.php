@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $uid = $_SESSION['user_id'];
 
 if (!isset($_POST['id'])) {
-    header('Location: index.php');
+    header('Location: list.php');
     exit;
 }
 
@@ -23,7 +23,7 @@ $stmt->execute();
 $tugas = $stmt->get_result()->fetch_assoc();
 
 if (!$tugas) {
-    header('Location: index.php');
+    header('Location: list.php');
     exit;
 }
 
@@ -62,5 +62,5 @@ $delete->bind_param('ii', $id, $uid);
 $delete->execute();
 
 $_SESSION['success'] = 'Tugas berhasil dihapus.';
-header('Location: index.php');
+header('Location: list.php');
 exit;

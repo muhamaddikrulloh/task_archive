@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $uid = $_SESSION['user_id'];
 
 if (!isset($_GET['id'])) {
-    header('Location: index.php');
+    header('Location: list.php');
     exit;
 }
 
@@ -25,7 +25,7 @@ $stmt->execute();
 $tugas = $stmt->get_result()->fetch_assoc();
 
 if (!$tugas) {
-    header('Location: index.php');
+    header('Location: list.php');
     exit;
 }
 
@@ -196,7 +196,7 @@ unset($_SESSION['error'], $_SESSION['success']);
           class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition">
           Simpan Perubahan
         </button>
-        <a href="index.php"
+        <a href="list.php"
           class="text-sm text-gray-500 hover:text-red-500 px-4 py-2.5 rounded-lg hover:bg-gray-100 transition">
           Batal
         </a>

@@ -132,7 +132,7 @@ if (!isset($_SESSION['user_id'])) {
           class="border border-gray-300 text-gray-600 text-sm font-medium px-6 py-2.5 rounded-lg hover:bg-gray-50 transition">
           Reset
         </button>
-        <a href="index.php"
+        <a href="list.php"
           class="text-sm text-gray-500 hover:text-red-500 px-4 py-2.5 rounded-lg hover:bg-gray-100 transition">
           Batal
         </a>

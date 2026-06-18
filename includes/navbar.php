@@ -5,7 +5,7 @@
 
     <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-6">
         <a href="/dashboard.php" class="<?= ($page == 'dashboard.php') ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600' ?>">Dashboard</a>
-        <a href="/tasks/index.php" class="<?= ($page == 'index.php') ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600' ?>">Data Tugas</a>
+        <a href="/tasks/list.php" class="<?= ($page == 'list.php') ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600' ?>">Data Tugas</a>
     </div>
 
     <a href="/auth/logout.php"

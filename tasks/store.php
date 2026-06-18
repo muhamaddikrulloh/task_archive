@@ -88,5 +88,5 @@ foreach ($upload_groups as $input_name => [$folder, $tipe, $allowed_ext]) {
 }
 
 $_SESSION['success'] = 'Tugas berhasil disimpan.';
-header('Location: index.php');
+header('Location: list.php');
 exit;

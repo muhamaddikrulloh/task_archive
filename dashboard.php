@@ -60,7 +60,7 @@ $total_lampiran = $conn->query("SELECT COUNT(*) FROM lampiran l JOIN tugas t ON 
           class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition">
           + Tambah Tugas
         </a>
-        <a href="tasks/index.php"
+        <a href="tasks/list.php"
           class="border border-gray-300 hover:border-blue-500 hover:text-blue-600 text-gray-600 text-sm font-medium px-5 py-2.5 rounded-lg transition">
           Lihat Semua Tugas
         </a>

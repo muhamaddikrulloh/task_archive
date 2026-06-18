@@ -11,7 +11,7 @@ $uid = $_SESSION['user_id'];
 $id  = (int) ($_POST['id'] ?? 0);
 
 if ($id <= 0) {
-    header('Location: index.php');
+    header('Location: list.php');
     exit;
 }
 
@@ -46,7 +46,7 @@ $stmt->execute();
 $tugas = $stmt->get_result()->fetch_assoc();
 
 if (!$tugas) {
-    header('Location: index.php');
+    header('Location: list.php');
     exit;
 }
 
@@ -218,5 +218,5 @@ if (
 }
 
 $_SESSION['success'] = 'Data tugas berhasil diperbarui.';
-header('Location: index.php');
+header('Location: list.php');
 exit;
