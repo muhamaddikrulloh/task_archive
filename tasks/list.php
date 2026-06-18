@@ -125,7 +125,7 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
   <!-- Modal Detail -->
   <div id="modalDetail" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 hidden px-4">
-    <div class="bg-white rounded-2xl shadow-lg w-full max-w-md p-6 max-h-[95vh] overflow-y-auto">
+    <div class="bg-white rounded-2xl shadow-lg w-full max-w-md p-6 max-h-[100vh] overflow-y-auto">
       <div class="mb-4 text-center">
         <h3 class="text-1xl font-bold text-blue-600">Detail Tugas</h3>
       </div>
