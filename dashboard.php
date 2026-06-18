@@ -72,7 +72,7 @@ $total_lampiran = $conn->query("SELECT COUNT(*) FROM lampiran l JOIN tugas t ON 
         <h3 class="text-sm font-semibold text-gray-700 mb-4">Video Tutorial Penggunaan Website</h3>
         <div class="rounded-lg overflow-hidden aspect-video">
             <video controls class="w-full h-full rounded-lg bg-black">
-            <source src="assets/videos/tutorial.mp4" type="video/mp4">
+            <source src="assets/uploads/videos/tutorial.mp4" type="video/mp4">
             Browser kamu tidak mendukung pemutar video.
             </video>
         </div>
