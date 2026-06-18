@@ -47,7 +47,7 @@ TaskArchive/
 │   ├── login_process.php
 │   └── logout.php
 ├── tasks/
-│   ├── index.php        # Daftar tugas
+│   ├── list.php        # Daftar tugas
 │   ├── create.php       # Form tambah tugas
 │   ├── store.php        # Proses simpan tugas
 │   ├── edit.php         # Form edit tugas
