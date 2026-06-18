@@ -21,7 +21,7 @@ TaskArchive adalah website untuk mahasiswa yang ingin menyimpan dan mengelola ri
 
 **CRUD + Upload Multiple File**
 - Tambah, lihat, edit, dan hapus data tugas
-- Upload lampiran lebih dari satu file dalam tiga kategori PDF, screenshot (JPG/PNG/WebP), dan ZIP/RAR
+- Upload lampiran lebih dari satu file dalam tiga kategori PDF, screenshot (JPG/PNG), dan ZIP/RAR
 
 **Pencarian Data & DataTables**
 - Daftar tugas ditampilkan dengan library DataTables lengkap fitur pencarian
@@ -32,11 +32,10 @@ TaskArchive adalah website untuk mahasiswa yang ingin menyimpan dan mengelola ri
 - Tanda tangan disimpan sebagai file PNG
 
 **Video / Animasi dan Audio**
-- Halaman dashboard menyediakan video tutorial yang diputar langsung menggunakan elemen `<video>` HTML5
+- Halaman dashboard menyediakan video tutorial yang diputar langsung menggunakan elemen `<video>`
 
 **Penggunaan Modal**
 - Detail tugas ditampilkan dalam modal
-- Data dimuat secara dinamis menggunakan JavaScript
 
 ---
 
