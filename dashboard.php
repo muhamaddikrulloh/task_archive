@@ -16,6 +16,7 @@ $total_tugas    = $conn->query("SELECT COUNT(*) FROM tugas WHERE user_id = $uid"
 $total_matkul   = $conn->query("SELECT COUNT(DISTINCT mata_kuliah) FROM tugas WHERE user_id = $uid")->fetch_row()[0];
 $total_lampiran = $conn->query("SELECT COUNT(*) FROM lampiran l JOIN tugas t ON l.tugas_id = t.id WHERE t.user_id = $uid")->fetch_row()[0];
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -30,7 +31,6 @@ $total_lampiran = $conn->query("SELECT COUNT(*) FROM lampiran l JOIN tugas t ON 
   <?php include 'includes/navbar.php'; ?>
 
   <main class="max-w-4xl mx-auto px-4 py-8">
-
     <h2 class="text-xl font-semibold text-gray-800 mb-1">
       Selamat datang, <?= htmlspecialchars($nama) ?>
     </h2>
@@ -77,7 +77,6 @@ $total_lampiran = $conn->query("SELECT COUNT(*) FROM lampiran l JOIN tugas t ON 
             </video>
         </div>
     </div>
-
   </main>
 
   <footer class="text-center text-xs text-gray-400 py-6">

@@ -52,7 +52,6 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
   <?php include '../includes/navbar.php'; ?>
 
   <main class="max-w-6xl mx-auto px-4 py-8">
-
     <h2 class="text-xl font-semibold text-gray-800 mb-6">Data Tugas</h2>
 
     <!-- Tombol -->
@@ -71,8 +70,6 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         <?= htmlspecialchars($success) ?>
       </div>
       <?php endif; ?>
-
-
     </div>
 
     <!-- Tabel -->
@@ -216,8 +213,7 @@ $tugas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
       });
       doc.save('data-tugas.pdf');
     }
-
   </script>
-
+  
 </body>
 </html>

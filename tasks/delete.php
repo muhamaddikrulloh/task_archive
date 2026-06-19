@@ -35,7 +35,6 @@ $lampirans = $stmt2->get_result()->fetch_all(MYSQLI_ASSOC);
 
 // Hapus file lampiran dari disk
 foreach ($lampirans as $lampiran) {
-
     $path = '../' . $lampiran['path_file'];
 
     if (file_exists($path)) {
@@ -45,7 +44,6 @@ foreach ($lampirans as $lampiran) {
 
 // Hapus file TTD dari disk
 if (!empty($tugas['ttd_digital'])) {
-
     $ttdPath = '../assets/uploads/signatures/' . $tugas['ttd_digital'];
 
     if (file_exists($ttdPath)) {

@@ -19,6 +19,7 @@ $id = (int) $_GET['id'];
 $stmt = $conn->prepare(
     "SELECT * FROM tugas WHERE id = ? AND user_id = ?"
 );
+
 $stmt->bind_param('ii', $id, $uid);
 $stmt->execute();
 
@@ -39,6 +40,7 @@ $error   = $_SESSION['error'] ?? '';
 $success = $_SESSION['success'] ?? '';
 unset($_SESSION['error'], $_SESSION['success']);
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -53,7 +55,6 @@ unset($_SESSION['error'], $_SESSION['success']);
   <?php include '../includes/navbar.php'; ?>
 
   <main class="max-w-2xl mx-auto px-4 py-8">
-
     <h2 class="text-xl font-semibold text-gray-800 mb-6">Edit Tugas</h2>
 
     <?php if ($error): ?>

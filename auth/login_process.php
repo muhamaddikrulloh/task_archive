@@ -6,7 +6,6 @@ $email    = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
 if (empty($email) || empty($password)) {
-
     $_SESSION['error'] = 'Email dan kata sandi wajib diisi.';
     $_SESSION['old_email'] = $email;
 
@@ -25,7 +24,6 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if (!$user || !password_verify($password, $user['password'])) {
-
     $_SESSION['error'] = 'Email atau kata sandi salah.';
     $_SESSION['old_email'] = $email;
 

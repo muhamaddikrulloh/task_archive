@@ -24,10 +24,7 @@ $tanggal_pengumpulan = $_POST['tanggal_pengumpulan'];
 $deskripsi           = trim($_POST['deskripsi'] ?? '');
 
 if (
-    empty($judul_tugas) ||
-    empty($mata_kuliah) ||
-    empty($dosen) ||
-    empty($tanggal_pengumpulan)
+    empty($judul_tugas) || empty($mata_kuliah) || empty($dosen) || empty($tanggal_pengumpulan)
 ) {
     $_SESSION['error'] = 'Semua field wajib diisi.';
     header("Location: edit.php?id=$id");
@@ -79,11 +76,9 @@ $stmt->execute();
 
 // Hapus Lampiran
 if (!empty($_POST['hapus_lampiran'])) {
-
     foreach ($_POST['hapus_lampiran'] as $lampiran_id) {
 
         $lampiran_id = (int) $lampiran_id;
-
         $stmt = $conn->prepare("SELECT * FROM lampiran WHERE id = ? AND tugas_id = ?");
 
         $stmt->bind_param('ii', $lampiran_id, $id);
@@ -92,15 +87,12 @@ if (!empty($_POST['hapus_lampiran'])) {
         $lampiran = $stmt->get_result()->fetch_assoc();
 
         if ($lampiran) {
-
             $filePath = '../assets/uploads/' . $lampiran['nama_file'];
-
             if (file_exists($filePath)) {
                 unlink($filePath);
             }
 
             $stmtDelete = $conn->prepare("DELETE FROM lampiran WHERE id = ?");
-
             $stmtDelete->bind_param('i', $lampiran_id);
             $stmtDelete->execute();
         }
@@ -150,9 +142,7 @@ uploadFiles($_FILES['lampiran_img'], $id, $conn, $uploadDir);
 
 // Hapus TTD jika diminta
 if (!empty($_POST['hapus_ttd'])) {
-
     if (!empty($tugas['ttd_digital'])) {
-
         $oldTTD = '../assets/uploads/signatures/' . $tugas['ttd_digital'];
 
         if (file_exists($oldTTD)) {
@@ -188,7 +178,6 @@ if (
     );
 
     $data = base64_decode($data);
-
     $namaTTD = 'ttd_' . time() . '.png';
 
     file_put_contents(
@@ -197,7 +186,6 @@ if (
     );
 
     if (!empty($tugas['ttd_digital'])) {
-
         $oldTTD = '../assets/uploads/signatures/' . $tugas['ttd_digital'];
 
         if (file_exists($oldTTD)) {

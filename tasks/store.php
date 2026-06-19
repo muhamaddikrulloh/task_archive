@@ -2,8 +2,6 @@
 session_start();
 require_once '../includes/db.php';
 
-$page = basename($_SERVER['PHP_SELF']);
-
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login.php');
     exit;
@@ -60,24 +58,20 @@ $upload_groups = [
 
 foreach ($upload_groups as $input_name => [$folder, $tipe, $allowed_ext]) {
     if (empty($_FILES[$input_name]['name'][0])) continue;
-
     $files = $_FILES[$input_name];
     $count = count($files['name']);
 
     for ($i = 0; $i < $count; $i++) {
         if ($files['error'][$i] !== UPLOAD_ERR_OK) continue;
-
         $original_name = basename($files['name'][$i]);
         $ext           = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
 
         // Validasi ekstensi
         if (!in_array($ext, $allowed_ext)) continue;
-
         $new_filename = uniqid() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '_', $original_name);
         $dest_path    = '../assets/uploads/' . $folder . '/' . $new_filename;
 
         if (!move_uploaded_file($files['tmp_name'][$i], $dest_path)) continue;
-
         $ukuran = $files['size'][$i];
         $path   = 'assets/uploads/' . $folder . '/' . $new_filename;
 

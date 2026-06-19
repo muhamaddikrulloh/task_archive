@@ -2,8 +2,6 @@
 session_start();
 require_once '../includes/db.php';
 
-$page = basename($_SERVER['PHP_SELF']);
-
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login.php');
     exit;
@@ -24,12 +22,10 @@ if (!isset($_SESSION['user_id'])) {
   <?php include '../includes/navbar.php'; ?>
 
   <main class="max-w-2xl mx-auto px-4 py-8">
-
     <h2 class="text-xl font-semibold text-gray-800 mb-6">Tambah Tugas</h2>
 
     <!-- PHP: action mengarah ke store.php -->
     <form action="store.php" method="POST" enctype="multipart/form-data">
-
       <div class="bg-white rounded-xl shadow-sm p-6 space-y-5">
 
         <!-- Judul Tugas -->
